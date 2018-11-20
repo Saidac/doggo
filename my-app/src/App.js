@@ -9,11 +9,10 @@ class App extends Component {
 
   render() {
     return (
-      <div style = {{ marginTop: 40, marginLeft: 50 }}>
         <Autocomplete
           value={ this.state.value }
-          inputProps={{ id: 'states-autocomplete' }}
-          wrapperStyle={{ position: 'relative', display: 'inline-block' }}
+          inputProps={{ id: 'states-autocomplete', type:"text", className:'form-control form-control-lg' }}
+          wrapperStyle={{ position: 'relative', display: 'block' }}
           items={ getStocks() }
           getItemValue={ item => item.name }
           shouldItemRender={ matchStocks }
@@ -32,7 +31,7 @@ class App extends Component {
             </div>
           )}
         />
-      </div>
+      
       );
     }
   }
