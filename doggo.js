@@ -1,26 +1,16 @@
-'use strict';
+var dogs = {};
+const jqxhr = $.getJSON("https://dog.ceo/api/breeds/list/all", function() {
+console.log("success fetching DOG API");
+})
+  .done(function() {
+    dogs = jqxhr.responseJSON.message;
+    console.log(Object.keys(dogs));
+    console.log("success loading dog api jsonResponse message");
+  })
+  .fail(function() {
+    console.log("error loading dog api");
+  })
+  .always(function() {
+    console.log("completed dog api request");
+  });
 
-const e = React.createElement;
-
-class LikeButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { liked: false };
-  }
-
-  render() {
-    if (this.state.liked) {
-      return 'Cool! Heres some doogos!';
-    }
-
-    return e(
-      'anchor',
-      { onClick: () => this.setState({ liked: true }) },
-      'Yes!'
-    );
-  }
-}
-
-
-const domContainer = document.querySelector('#like_button_container');
-ReactDOM.render(e(LikeButton), domContainer);
