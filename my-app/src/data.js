@@ -1,10 +1,11 @@
 import $ from 'jquery';
 var dogsArr = [];
-var jqxhr = $.getJSON("https://dog.ceo/api/breeds/list/all", function() {
+
+var jqxhrDogsApiAll = $.getJSON("https://dog.ceo/api/breeds/list/all", function() {
     console.log("success fetching DOG API");
 })
   .done(function() {
-    var dogsApiResponse = jqxhr.responseJSON.message;
+    var dogsApiResponse = jqxhrDogsApiAll.responseJSON.message;
     var dogNames = Object.keys(dogsApiResponse);
     dogNames.forEach(function(cv){
     dogsArr.push({
