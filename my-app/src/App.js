@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Autocomplete from  'react-autocomplete';
-import { getStocks, matchStocks } from './data';
+import { getDogs, matchDogs } from './data';
 import './App.css';
 
 class App extends Component {
@@ -11,11 +11,16 @@ class App extends Component {
     return (
         <Autocomplete
           value={ this.state.value }
-          inputProps={{ id: 'states-autocomplete', type:"text", className:'form-control form-control-lg' }}
+          inputProps={{ 
+            id: 'states-autocomplete', 
+            type:"text",
+            placeholder:"what's your favourite breed?", 
+            className:'form-control form-control-lg' 
+          }}
           wrapperStyle={{ position: 'relative', display: 'block' }}
-          items={ getStocks() }
-          getItemValue={ item => item.name }
-          shouldItemRender={ matchStocks }
+          items={ getDogs() }
+          getItemValue={ item => item.breed }
+          shouldItemRender={ matchDogs }
           onChange={(event, value) => this.setState({ value }) }
           onSelect={ value => this.setState({ value }) }
           renderMenu={ children => (
@@ -26,8 +31,7 @@ class App extends Component {
           renderItem={ (item, isHighlighted) => (
             <div
               className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
-              key={ item.abbr } >
-              { item.name }
+              key={ item.breed } > { item.breed }
             </div>
           )}
         />

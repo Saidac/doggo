@@ -1,10 +1,16 @@
-/* var dogs = {};
-const jqxhr = $.getJSON("https://dog.ceo/api/breeds/list/all", function() {
+import $ from 'jquery';
+var dogsArr = [];
+var jqxhr = $.getJSON("https://dog.ceo/api/breeds/list/all", function() {
 console.log("success fetching DOG API");
 })
   .done(function() {
-    dogs = jqxhr.responseJSON.message;
-    console.log(Object.keys(dogs));
+    var dogsApiResponse = jqxhr.responseJSON.message;
+    var dogNames = Object.keys(dogsApiResponse);
+    dogNames.forEach(function(cv){
+    dogsArr.push({
+      breed: cv
+    });
+  })
     console.log("success loading dog api jsonResponse message");
   })
   .fail(function() {
@@ -13,8 +19,32 @@ console.log("success fetching DOG API");
   .always(function() {
     console.log("completed dog api request");
   });
-*/
-  export function getStocks() {
+
+export function getDogs() {
+    return dogsArr;
+  }
+
+  export function matchDogs(state, value) {
+    return (
+      state.breed.toLowerCase().indexOf(value.toLowerCase()) !== -1 );
+  }
+
+
+
+
+/*
+var dogsApiResponse = { "affenpinscher": [], "african": [], "airedale": [], "akita": [], "appenzeller": [], "basenji": [], "beagle": [], "bluetick": [], "borzoi": [], "bouvier": [], "boxer": [], "brabancon": [], "briard": [], "bulldog": ["boston", "french"], "bullterrier": ["staffordshire"], "cairn": [], "cattledog": ["australian"], "chihuahua": [], "chow": [], "clumber": [], "cockapoo": [], "collie": ["border"], "coonhound": [], "corgi": ["cardigan"], "cotondetulear": [], "dachshund": [], "dalmatian": [], "dane": ["great"], "deerhound": ["scottish"], "dhole": [], "dingo": [], "doberman": [], "elkhound": ["norwegian"], "entlebucher": [], "eskimo": [], "frise": ["bichon"], "germanshepherd": [], "greyhound": ["italian"], "groenendael": [], "hound": ["afghan", "basset", "blood", "english", "ibizan", "walker"], "husky": [], "keeshond": [], "kelpie": [], "komondor": [], "kuvasz": [], "labrador": [], "leonberg": [], "lhasa": [], "malamute": [], "malinois": [], "maltese": [], "mastiff": ["bull", "tibetan"], "mexicanhairless": [], "mix": [], "mountain": ["bernese", "swiss"], "newfoundland": [], "otterhound": [], "papillon": [], "pekinese": [], "pembroke": [], "pinscher": ["miniature"], "pointer": ["german", "germanlonghair"], "pomeranian": [], "poodle": ["miniature", "standard", "toy"], "pug": [], "puggle": [], "pyrenees": [], "redbone": [], "retriever": ["chesapeake", "curly", "flatcoated", "golden"], "ridgeback": ["rhodesian"], "rottweiler": [], "saluki": [], "samoyed": [], "schipperke": [], "schnauzer": ["giant", "miniature"], "setter": ["english", "gordon", "irish"], "sheepdog": ["english", "shetland"], "shiba": [], "shihtzu": [], "spaniel": ["blenheim", "brittany", "cocker", "irish", "japanese", "sussex", "welsh"], "springer": ["english"], "stbernard": [], "terrier": ["american", "australian", "bedlington", "border", "dandie", "fox", "irish", "kerryblue", "lakeland", "norfolk", "norwich", "patterdale", "russell", "scottish", "sealyham", "silky", "tibetan", "toy", "westhighland", "wheaten", "yorkshire"], "vizsla": [], "weimaraner": [], "whippet": [], "wolfhound": ["irish"] };
+var dogNames = Object.keys(dogsApiResponse);
+var dogsArr = [];
+dogNames.forEach(function(cv){
+    dogsArr.push({
+      breed: cv
+    });
+  }) */
+
+
+/*
+export function getStocks() {
     return [
       { abbr: 'ADANIPORTS', name: 'Adani Ports & Special Economic Zone Ltd.' },
       { abbr: 'ASIANPAINT', name: 'Asian Paints Ltd.' },
@@ -75,3 +105,5 @@ console.log("success fetching DOG API");
       state.abbr.toLowerCase().indexOf(value.toLowerCase()) !== -1
     );
   }
+
+*/

@@ -1,10 +1,23 @@
-var dogs = {};
+// { abbr: 'ADANIPORTS', name: 'Adani Ports & Special Economic Zone Ltd.' }
+
+var dogsApiResponse = {};
+var dogNames = [];
+var dogsArr = [];
+
 const jqxhr = $.getJSON("https://dog.ceo/api/breeds/list/all", function() {
 console.log("success fetching DOG API");
 })
   .done(function() {
-    dogs = jqxhr.responseJSON.message;
-    console.log(Object.keys(dogs));
+    dogsApiResponse = jqxhr.responseJSON.message;
+    dogNames = Object.keys(dogsApiResponse);
+    dogNames.forEach(function(cv){
+      dogsArr.push({
+        breedKind: cv
+      });
+    })
+
+    console.log(dogsArr);
+
     console.log("success loading dog api jsonResponse message");
   })
   .fail(function() {
