@@ -1,5 +1,3 @@
-// { abbr: 'ADANIPORTS', name: 'Adani Ports & Special Economic Zone Ltd.' }
-
 var dogsApiResponse = {};
 var dogNames = [];
 var dogsArr = [];
