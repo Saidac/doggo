@@ -16,7 +16,6 @@ function cb(ans){
   })
   // console.log(ansArr)
 }
-cb(items);
 
 
 class App extends Component {
@@ -28,7 +27,7 @@ class App extends Component {
     this.state = {value: ''};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.galleryState = items;      
+    this.gallery = items;      
   }
 
   handleChange(event) {
@@ -60,6 +59,14 @@ class App extends Component {
     return (
       <div>
         
+        {this.gallery.items.map(item => (
+          <li key={item.src}>
+            <label>
+              <input type="checkbox" disabled readOnly checked={item.done} /> 
+              <span className={item.done ? "done" : ""}>{item.src}</span>
+            </label>
+          </li>
+        ))}
 
         <form onSubmit={this.handleSubmit}>
           <div className="form-group row"> 
