@@ -41,17 +41,18 @@ class App extends Component {
   render() {
     return (
       <div>
-      <div className="container mt-5">
+      <div className="container my-5">
         <div className="row">
-          <div className="col-10 offset-1 jumbotron">
-            <h1 className="display-4">Stain your carpet</h1>
-            <p className="lead">Adopt a pup who's out of luck.</p>
+          <div className="col-sm-8 offset-sm-2 jumbotron">
+            <h1 className="display-4 text-right text-white">Stain your carpet</h1>
+            <p className="lead text-right">Adopt a pup who's out of luck.</p>
             <hr></hr>
-            <p className="pl-1 mb-4">Use our reactive filter sort to find the dog you want to bring home today. Dog-Shelter-As-a-Service, soon as ICO.</p>
+            <p className="mb-4">Use our reactive filter sort to find the dog you want to bring home today. Dog-Shelter-As-a-Service, soon as ICO.</p>
             
             <form onSubmit={this.handleSubmit}>
-              <div className="form-group row">
-                <div className="col-sm-8">
+              <div className="form-group">
+                
+                <div>
 
                   <Autocomplete
                     value={this.state.value}
@@ -88,6 +89,7 @@ class App extends Component {
       </div>
       <div className="container">
         <div className="row">
+        <div className="col-sm-10 offset-sm-1">
           <div className="card-columns">
             {this.state.gallery.map(href => (
                 <div key={href}>
@@ -97,6 +99,7 @@ class App extends Component {
                 </div>
               ))}
           </div>
+        </div>
         </div>
       </div>
       </div>
