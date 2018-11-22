@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { Component } from 'react';
 import Autocomplete from  'react-autocomplete';
 import { getDogs, matchDogs } from './data';
@@ -5,123 +6,99 @@ import './App.css';
 import Button from './Button';
 import Card from './Card';
 
-
-var items = [];
-
-function cb(ans){
-  var ansArr = ans.message; 
-  items.push(ansArr.slice(0,5));
-  console.log(items);
-}
-
 class App extends Component {
 
-  state = { value: '' }; 
+  state = { value: '', gallery: [] }; 
  
   constructor(props) {
     super(props);
-    this.state = { value: "", arrayOfImgs: [] };
+    this.state = { value: "", gallery: [] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.gallery = items;
   }
 
-  handleChange(event) {
-    this.setState({value: event.target.value});
-    //console.log(this.setState({value: event.target.value}));
+  handleChange(value) {
+    this.setState(Object.assign(this.state, { value: value }));
+    this.handleSubmit();
+    // console.log(this.setState({value: event.target.value}));
   }
   
   handleSubmit(event) {
-    let val = this.state.value;
-    // let jqxhrDogsApiBreed = $.getJSON("https://dog.ceo/api/breed/" + val + "/images", function() {
-    // console.log("success fetching " + val + " img");
-    // cb(jqxhrDogsApiBreed.responseJSON.message);
-    // })
-    // .done(function() {
-    //   // dogsApiBreedResponse = jqxhrDogsApiBreed.responseJSON.message;
-    //   console.log("done loading api");
-    // })
-    // .fail(function() {
-    //   console.log("error loading dog api");
-    // })
-    // .always(function() {
-    //   console.log("completed dog api request");
-    // });
-  
-    fetch("https://dog.ceo/api/breed/" + val + "/images")
-      .then(response => response.json())
-      //.then(json => console.log(json))
-      // .then(json => alert(json))
-      .then(json => cb(json))
-      
-    event.preventDefault();
+    if (this.state.value) {
+      axios.get(`https://dog.ceo/api/breed/${this.state.value}/images`)
+        .then(json => {
+          this.setState(Object.assign(this.state, { gallery: json.data.message.slice(0, 5) }));
+        })
+        .catch((error) => console.log(error));
+    }
+    
+    if (event) {
+      event.preventDefault(); 
+    }
   }
 
 
   render() {
-    console.log("this.gallery", this.gallery);
-    console.log("this.gallery.items", this.gallery.items);
-
     return (
       <div>
-        
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group row"> 
-            <div className="col-sm-6"> 
-              <Autocomplete
-                value={ this.state.value }
-                inputProps={{ 
-                  id: 'states-autocomplete', 
-                  type:"text",
-                  placeholder:"what's your favourite breed?", 
-                  className:'form-control form-control-lg' 
-                }}
-                wrapperStyle={{ position: 'relative', display: 'block' }}
-                items={ getDogs() }
-                getItemValue={ item => item.breed }
-                shouldItemRender={ matchDogs }
-                onChange={(event, value) => this.setState({ value }) }
-                onSelect={ value => this.setState({ value }) }
-                renderMenu={ children => (
-                  <div className = "menu">
-                    { children }
-                  </div>
-                )}
-                renderItem={ (item, isHighlighted) => (
-                  <div
-                    className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
-                    key={ item.breed } > { item.breed }
-                  </div>
-                )}
-              />
-            </div>
-            <div className="col-sm-2">
-              <Button type="submit" text="Search" className="btn btn-lg btn-primary"/>
-            </div>
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-10 offset-1 jumbotron">
+            <h1 className="display-4">Stain your carpet</h1>
+            <p className="lead">Adopt a pup who's out of luck.</p>
+            <hr></hr>
+            <p className="pl-1 mb-4">Use our reactive filter sort to find the dog you want to bring home today. Dog-Shelter-As-a-Service, soon as ICO.</p>
+            
+            <form onSubmit={this.handleSubmit}>
+              <div className="form-group row">
+                <div className="col-sm-8">
+
+                  <Autocomplete
+                    value={this.state.value}
+                    inputProps={{
+                      id: 'states-autocomplete',
+                      type: "text",
+                      placeholder: "what's your favourite breed?",
+                      className: 'form-control form-control-lg'
+                    }}
+                    wrapperStyle={{ position: 'relative', display: 'block' }}
+                    items={getDogs()}
+                    getItemValue={item => item.breed}
+                    shouldItemRender={matchDogs}
+                    onChange={(event, value) => this.handleChange(value)}
+                    onSelect={value => this.handleChange(value)}
+                    renderMenu={children => (
+                      <div className="menu">
+                        {children}
+                      </div>
+                    )}
+                    renderItem={(item, isHighlighted) => (
+                      <div
+                        className={`item ${isHighlighted ? 'item-highlighted' : ''}`}
+                        key={item.breed} > {item.breed}
+                      </div>
+                    )}
+                  />
+                </div>
+              
+              </div>
+            </form>
           </div>
-        </form>
-       
-        { this.gallery &&
-          this.gallery.map(item => (
-            <li key={item.message}>
-              { <img className="card-img-top" alt="" src={item.message} /> }
-              <Card
-                src={item.message ? item.message : null}
-                text="Search"
-                className="btn btn-lg btn-primary"
-              />
-
-              <label>
-                <input type="checkbox" disabled readOnly checked={item.done} />
-                <span className={item.done ? "done" : ""}>{item.message}</span>
-                {console.log("-------------item", item)}
-              </label>
-
-              <img className="card-img-top" alt="" src={item.message} />
-            </li>
-          ))}
-             
-
+        </div>
+      </div>
+      <div className="container">
+        <div className="row">
+          <div className="card-columns">
+            {this.state.gallery.map(href => (
+                <div key={href}>
+                  <Card
+                    src={href}
+                  />
+                </div>
+              ))}
+          </div>
+        </div>
+      </div>
       </div>
       );
     }
@@ -129,10 +106,6 @@ class App extends Component {
 
 
 
-/*
-export function dogImgs() {
-    return dogImgArr;
-}
-*/
+
  
 export default App;
