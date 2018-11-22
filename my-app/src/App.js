@@ -17,7 +17,6 @@ function cb(ans) {
   });
   // console.log(ansArr)
 }
-
 class App extends Component {
   state = { value: "" };
 
@@ -62,8 +61,19 @@ class App extends Component {
     console.log("this.gallery.items", this.gallery.items);
 
     // const imgUrl = "https://images.dog.ceo/breeds/airedale/n02096051_9631.jpg";
+    
     return (
       <div>
+        
+        {this.gallery.items.map(item => (
+          <li key={item.src}>
+            <label>
+              <input type="checkbox" disabled readOnly checked={item.done} /> 
+              <span className={item.done ? "done" : ""}>{item.src}</span>
+            </label>
+          </li>
+        ))}
+
         <form onSubmit={this.handleSubmit}>
           <div className="form-group row">
             <div className="col-sm-6">
